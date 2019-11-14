@@ -1,0 +1,7 @@
+settings:
+  rootdir: D:\\modeluper
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp  
