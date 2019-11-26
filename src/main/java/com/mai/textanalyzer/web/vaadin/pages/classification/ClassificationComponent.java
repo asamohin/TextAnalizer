@@ -1,12 +1,11 @@
 package com.mai.textanalyzer.web.vaadin.pages.classification;
 
+import com.mai.textanalyzer.Application;
 import com.mai.textanalyzer.classifier.common.ClassifierEnum;
 import com.mai.textanalyzer.classifier.common.Prediction;
 import com.mai.textanalyzer.classifier.common.TextClassifier;
 import com.mai.textanalyzer.indexing.common.Indexer;
 import com.mai.textanalyzer.indexing.common.IndexerEnum;
-import static com.mai.textanalyzer.web.vaadin.pages.classification.SearcherTest.path;
-import com.vaadin.ui.CustomComponent;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -26,7 +25,6 @@ import java.util.logging.Logger;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -38,16 +36,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
-@Configuration
-@PropertySource("classpath:application.yml")
 @Controller
-public class ClassificationComponent extends CustomComponent {
-    @Value("${settings.rootdir}")
-    private static String rootdir = "D:\\modeluper";  
+public class ClassificationComponent {  
     
     public static List<String> result = new ArrayList<String>();
     private static final ExecutorService executor = Executors.newFixedThreadPool(4);
     private static int exp = 85;
+    public static String rootdir = "D:\\modeluper";
     
     public static final String model_DOC2VEC = "DOC2VEC";
     public static final String model_TF_IDF = "TF_IDF";
@@ -74,7 +69,7 @@ public class ClassificationComponent extends CustomComponent {
    }  
     
     @RequestMapping(value = "/searchResult", method = {RequestMethod.POST})
-    public String searchResult(@ModelAttribute("SpringWeb")SearchStructure searchStructure, ModelMap model) throws Exception{
+    public String searchResult(@ModelAttribute("SpringWeb")SearchStructure searchStructure, ModelMap model) {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             // Считываем исходный каталог для поиска файлов.
@@ -103,7 +98,8 @@ public class ClassificationComponent extends CustomComponent {
             int j = 0;
             System.out.println("Input text = " + storage.getInput());  
             System.out.println("rootdir = " + rootdir);
-            LoadingComponents lc = new LoadingComponents(rootdir);
+            //LoadingComponents lc = new LoadingComponents();
+            LoadingComponents lc = LoadingComponents.getInstance();
             ArrayList<String> resList = new ArrayList<>();
             //ArrayList<String> classifier = input.getClassifier();
             ArrayList<String> classifier = new ArrayList<>();
@@ -262,7 +258,6 @@ public class ClassificationComponent extends CustomComponent {
                                 line = reader.readLine();
                             }
                         } catch (IOException ex) {
-                            Logger.getLogger(SearcherTest.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 });

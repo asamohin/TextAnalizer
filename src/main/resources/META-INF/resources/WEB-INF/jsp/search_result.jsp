@@ -12,7 +12,7 @@
       <h2>Результаты поиска:</h2>
 		<c:forEach var="output" items="${output}">
 			<c:set var = "input" value = "${fn:replace(output.getAbsolutePath(), '\\\\', '/')}" />
-			<a href="/reportFetch?filePath=${input}&fileName=${output.getName()}">${output.getAbsolutePath()}</a><br>
+			<a href="/TextAnalizer-0.4/reportFetch?filePath=${input}&fileName=${output.getName()}">${output.getAbsolutePath()}</a><br>
 		</c:forEach>
 		<form:form action="http://localhost:8080/classifier" method="GET">
 			<input type="submit" value = "Вернуться к классификации"/>

@@ -19,17 +19,26 @@ import java.util.List;
  * @author Sergey
  */
 public class LoadingComponents {
-    public LoadingComponents(String rootdir) {
-     this.rootdir = rootdir;
-    }
-    private static String rootdir = "D:\\modeluper";
+
+    private static LoadingComponents instance;
+        private LoadingComponents(){}
+        public static LoadingComponents getInstance(){
+        if(instance == null){		//если объект еще не создан
+            instance = new LoadingComponents();	//создать новый объект
+        }
+        return instance;		// вернуть ранее созданный объект
+    }    
+    public static String rootdir = "D:\\modeluper";
     private static final File rootDir = new File(rootdir);
-    private final static Indexer doc2vec;
-    private final static Indexer tfIdf;
-    private final static List<TextClassifier> doc2vecClassifiers;
-    private final static List<TextClassifier> tfIdfClassifiers;
+    private static final Indexer doc2vec;
+    private static final Indexer tfIdf;
+    private static final List<TextClassifier> doc2vecClassifiers;
+    private static final List<TextClassifier> tfIdfClassifiers;
 
     static {
+    //public static void init() {
+        System.out.println(">>>Starting loading components");  
+        System.out.println("rootdir = " + rootdir);        
         Creater.checkRootFolderStructure(rootDir, null, null);
         doc2vec = Creater.checkExistIndexerModel(rootDir, IndexerEnum.DOC2VEC) ? Creater.loadIndexer(IndexerEnum.DOC2VEC, rootDir) : null;
         tfIdf = Creater.checkExistIndexerModel(rootDir, IndexerEnum.TF_IDF) ? Creater.loadIndexer(IndexerEnum.TF_IDF, rootDir) : null;
