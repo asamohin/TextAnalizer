@@ -1,10 +1,12 @@
 package com.mai.textanalyzer;
 
+import com.mai.textanalyzer.constants.Constants;
 import com.mai.textanalyzer.web.vaadin.pages.classification.LoadingComponents;
 import java.sql.SQLException;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,17 +21,24 @@ import org.springframework.stereotype.Component;
 @SpringBootApplication
 @ServletComponentScan
 @EnableAutoConfiguration
-public class Application extends SpringBootServletInitializer{   
+public class Application  extends SpringBootServletInitializer implements CommandLineRunner{   
+    @Value("${config.rootdir}")
+    private String rootdir;
     
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         startH2Server();    
         return application.sources(Application.class);
     }  
-    
-    public static void main(String[] args) {
+    @Override
+    public void run(String... args) throws Exception {
+        Constants.getInstance();
+        System.out.println("run: set rootdir= " + rootdir);
+        Constants.setRootdir(rootdir);
         startH2Server();     
         LoadingComponents.getInstance();
+    }    
+    public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
     

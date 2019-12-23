@@ -4,6 +4,7 @@ import com.mai.textanalyzer.Application;
 import com.mai.textanalyzer.classifier.common.ClassifierEnum;
 import com.mai.textanalyzer.classifier.common.Prediction;
 import com.mai.textanalyzer.classifier.common.TextClassifier;
+import com.mai.textanalyzer.constants.Constants;
 import com.mai.textanalyzer.indexing.common.Indexer;
 import com.mai.textanalyzer.indexing.common.IndexerEnum;
 import java.io.BufferedReader;
@@ -42,7 +43,7 @@ public class ClassificationComponent {
     public static List<String> result = new ArrayList<String>();
     private static final ExecutorService executor = Executors.newFixedThreadPool(4);
     private static int exp = 85;
-    public static String rootdir = "D:\\modeluper";
+    //public static String rootdir = "D:\\modeluper";
     
     public static final String model_DOC2VEC = "DOC2VEC";
     public static final String model_TF_IDF = "TF_IDF";
@@ -77,13 +78,13 @@ public class ClassificationComponent {
             //final String directoryPath = reader.readLine();
             reader.close();
 
-            File directory = new File(rootdir + "\\DocForLearning\\");
+            File directory = new File(Constants.getRootdir() + "\\DocForLearning\\");
             // Убедимся, что директория найдена и это реально директория, а не файл.
             if (directory.exists() && directory.isDirectory()) {
                 searchStructure.setResultList(processDirectory(directory, searchStructure.getInput()));
                 model.addAttribute("output", searchStructure.getResultList());                
             } else {
-                System.out.println("dir = " + rootdir + "\\DocForLearning\\");
+                System.out.println("dir = " + Constants.getRootdir() + "\\DocForLearning\\");
                 System.out.println("Не удалось найти директорию по указанному пути.");
             }
         } catch (IOException e) {
@@ -97,7 +98,7 @@ public class ClassificationComponent {
             int i = 0;
             int j = 0;
             System.out.println("Input text = " + storage.getInput());  
-            System.out.println("rootdir = " + rootdir);
+            System.out.println("rootdir = " + Constants.getRootdir());
             //LoadingComponents lc = new LoadingComponents();
             LoadingComponents lc = LoadingComponents.getInstance();
             ArrayList<String> resList = new ArrayList<>();

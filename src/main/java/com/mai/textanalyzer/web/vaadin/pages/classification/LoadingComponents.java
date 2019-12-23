@@ -7,6 +7,7 @@ package com.mai.textanalyzer.web.vaadin.pages.classification;
 
 import com.mai.textanalyzer.classifier.common.ClassifierEnum;
 import com.mai.textanalyzer.classifier.common.TextClassifier;
+import com.mai.textanalyzer.constants.Constants;
 import com.mai.textanalyzer.creater.Creater;
 import com.mai.textanalyzer.indexing.common.Indexer;
 import com.mai.textanalyzer.indexing.common.IndexerEnum;
@@ -28,8 +29,8 @@ public class LoadingComponents {
         }
         return instance;		// вернуть ранее созданный объект
     }    
-    public static String rootdir = "D:\\modeluper";
-    private static final File rootDir = new File(rootdir);
+    //public static String rootdir = "D:\\modeluper";
+    private static final File rootDir = new File(Constants.getRootdir());
     private static final Indexer doc2vec;
     private static final Indexer tfIdf;
     private static final List<TextClassifier> doc2vecClassifiers;
@@ -38,7 +39,7 @@ public class LoadingComponents {
     static {
     //public static void init() {
         System.out.println(">>>Starting loading components");  
-        System.out.println("rootdir = " + rootdir);        
+        System.out.println("rootdir = " + Constants.getRootdir());
         Creater.checkRootFolderStructure(rootDir, null, null);
         doc2vec = Creater.checkExistIndexerModel(rootDir, IndexerEnum.DOC2VEC) ? Creater.loadIndexer(IndexerEnum.DOC2VEC, rootDir) : null;
         tfIdf = Creater.checkExistIndexerModel(rootDir, IndexerEnum.TF_IDF) ? Creater.loadIndexer(IndexerEnum.TF_IDF, rootDir) : null;
