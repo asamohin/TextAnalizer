@@ -82,7 +82,7 @@ public class ClassificationComponent {
             // Убедимся, что директория найдена и это реально директория, а не файл.
             if (directory.exists() && directory.isDirectory()) {
                 searchStructure.setResultList(processDirectory(directory, searchStructure.getInput()));
-                model.addAttribute("output", searchStructure.getResultList());                
+                model.addAttribute("output", searchStructure.getResultList());
             } else {
                 System.out.println("dir = " + Constants.getRootdir() + "\\DocForLearning\\");
                 System.out.println("Не удалось найти директорию по указанному пути.");
@@ -160,7 +160,10 @@ public class ClassificationComponent {
             System.out.println(selectedClassifier);
             //System.out.println(map.size());
             if (iNDArray == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "В тексте недостаточно информации для его классификации");
+                model.addAttribute("output", "В тексте недостаточно информации для его классификации! Попробуйте ввести другой текст...");
+                model.addAttribute("input", storage.getInput());
+                return "classifier_result";
+                //throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "В тексте недостаточно информации для его классификации");
             }            
             if (selectedClassifier == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Не выбран классификатор");

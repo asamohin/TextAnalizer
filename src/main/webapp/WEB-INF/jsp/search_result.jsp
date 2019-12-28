@@ -14,10 +14,10 @@
 			<c:set var = "input" value = "${fn:replace(output.getAbsolutePath(), '\\\\', '/')}" />
 			<a href="/reportFetch?filePath=${input}&fileName=${output.getName()}">${output.getAbsolutePath()}</a><br>
 		</c:forEach>
-		<form:form action="http://localhost:8080/classifier" method="GET">
+		<form:form action="http://localhost:8080/TextAnalizer-0.4/classifier" method="GET">
 			<input type="submit" value = "Вернуться к классификации"/>
 		</form:form>		
-		<form:form action="http://localhost:8080/search" method="GET">
+		<form:form action="http://localhost:8080/TextAnalizer-0.4/search" method="GET">
 			<input type="submit" value = "Вернуться к поиску"/>
 		</form:form>		
    </body>
